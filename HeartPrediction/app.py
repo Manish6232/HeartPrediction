@@ -2,6 +2,8 @@ import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
 import joblib
+import os
+
 
 # ── Page config ───────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -14,9 +16,12 @@ st.set_page_config(
 # ── Load model ────────────────────────────────────────────────────────────────
 @st.cache_resource
 def load_model():
-    m  = joblib.load("knn_heart_model.pkl")
-    sc = joblib.load("heart_scaler.pkl")
-    ec = joblib.load("heart_columns.pkl")
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+    m  = joblib.load(os.path.join(BASE_DIR, "knn_heart_model.pkl"))
+    sc = joblib.load(os.path.join(BASE_DIR, "heart_scaler.pkl"))
+    ec = joblib.load(os.path.join(BASE_DIR, "heart_columns.pkl"))
+
     return m, sc, ec
 
 model, scaler, expected_columns = load_model()
